@@ -1,0 +1,53 @@
+project(example)
+cmake_minimum_required(VERSION 3.9.0)
+
+
+set (CMAKE_VERBOSE_MAKEFILE ON)
+set (PACKAGE_NAME "Pixiologist")
+set (CMAKE_CXX_STANDARD 17)
+
+
+
+set(OpenCV_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/cpp-modules/opencv/sdk/native/jni/)
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+find_package(ReactAndroid REQUIRED CONFIG)
+find_package(fbjni REQUIRED CONFIG)
+
+add_library(
+        ${PACKAGE_NAME}
+        SHARED
+        ../../../../src/parsers.cpp
+        ../cpp/example.cpp
+)
+
+
+target_include_directories(
+        ${PACKAGE_NAME}
+        PRIVATE
+        "../cpp"
+        "../../../../include"
+        "../../../../lib/include"
+        ${OpenCV_INCLUDE_DIRS}
+)
+
+
+set(IMAGE_RESIZER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../lib/jni/generators/${ANDROID_ABI}/)
+add_library(image_resizer STATIC IMPORTED)
+set_target_properties(image_resizer PROPERTIES
+        IMPORTED_LOCATION
+        ${IMAGE_RESIZER_DIR}/image_resizer.a
+        )
+
+
+
+set_target_properties(${PACKAGE_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries(
+        ${PACKAGE_NAME}
+        ${OpenCV_LIBS}
+        image_resizer
+        android
+        log
+)

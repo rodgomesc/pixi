@@ -4,3 +4,6 @@
 [submodule "3rdparty/llvm-project"]
 	path = 3rdparty/llvm-project
 	url = https://github.com/llvm/llvm-project.git
+[submodule "src/examples/react-native/android/cpp-modules/Halide"]
+	path = src/examples/react-native/android/cpp-modules/Halide
+	url = git@github.com:halide/Halide.git

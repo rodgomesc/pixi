@@ -30,15 +30,22 @@ namespace {
             Expr alpha = (u32(255) << 24);
             argb_output_(x, y) = alpha | r << 16 | g << 8 | b;
 
-            // TODO: Write optimized schedule.
-            argb_output_.compute_root();
+
+            Var xi("xi"), yi("yi");
+            argb_output_.compute_root()
+                            .split(y, y, yi, 64)
+                            .split(x, x, xi, 32)
+                            .vectorize(xi, natural_vector_size<uint8_t>())
+                            .reorder(xi, x, y)
+                            .parallel(y);
+
         }
     };
 }  // namespace
 
 HALIDE_REGISTER_GENERATOR(YuvToRgba888, yuv_to_rgba888)
 
-// The main function for the generator
-int main(int argc, char **argv) {
-    return Halide::Internal::generate_filter_main(argc, argv);
-}
+////// The main function for the generator
+//int main(int argc, char **argv) {
+//    return Halide::Internal::generate_filter_main(argc, argv);
+//}

@@ -2,8 +2,8 @@
 // Created by rodrigo gomes on 15/11/23.
 //
 
-#ifndef PIXIOLOGIST_PARSERS_H
-#define PIXIOLOGIST_PARSERS_H
+#ifndef PIXI_PARSERS_H
+#define PIXI_PARSERS_H
 
 
 #include "HalideBuffer.h"
@@ -18,4 +18,4 @@ Halide::Runtime::Buffer<uint8_t> cvMatToHalideBuffer(const cv::Mat &image);
 cv::Mat halideBufferToCvMat(const Halide::Runtime::Buffer<uint8_t> &buffer);
 
 
-#endif //PIXIOLOGIST_PARSERS_H
+#endif //PIXI_PARSERS_H

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <chrono>
-#include "pixiologist/parsers.h"
+#include "pixi/parsers.h"
 #include "image_resizer.h"
 
 int main()

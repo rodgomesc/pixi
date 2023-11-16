@@ -1,7 +1,7 @@
 //
 // Created by rodrigo gomes on 15/11/23.
 //
-#include "pixiologist/parsers.h"
+#include "pixi/parsers.h"
 
 using namespace std;
 using namespace Halide::Runtime;

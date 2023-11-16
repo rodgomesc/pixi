@@ -1,19 +1,18 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {NativeModules, Pressable} from 'react-native';
 
 import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
 
-const {Pixiologist} = NativeModules;
+const {Pixi} = NativeModules;
 
-if (!Pixiologist) {
-  throw new Error('Pixiologist native module is not available.');
+if (!Pixi) {
+  throw new Error('Pixi native module is not available.');
 }
 
 function App(): JSX.Element {
   const handleImageResize = () => {
     console.log('resizing...');
-    Pixiologist.install();
+    Pixi.install();
   };
   return (
     <SafeAreaView style={styles.container}>

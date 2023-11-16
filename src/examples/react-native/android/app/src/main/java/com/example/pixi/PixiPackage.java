@@ -1,4 +1,4 @@
-package com.example.pixiologist;
+package com.example.pixi;
 
 import androidx.annotation.NonNull;
 import com.facebook.react.ReactPackage;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PixiologistPackage implements ReactPackage {
+public class PixiPackage implements ReactPackage {
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactApplicationContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new PixiologistModule(reactApplicationContext));
+        modules.add(new PixiModule(reactApplicationContext));
         return modules;
     }
 

@@ -1,4 +1,4 @@
-package com.example.pixiologist;
+package com.example.pixi;
 
 import android.content.res.AssetManager;
 import android.util.Log;
@@ -7,12 +7,12 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 
-@ReactModule(name = PixiologistModule.NAME)
-public class PixiologistModule extends ReactContextBaseJavaModule {
+@ReactModule(name = PixiModule.NAME)
+public class PixiModule extends ReactContextBaseJavaModule {
 
-    public static final String NAME = "Pixiologist";
+    public static final String NAME = "Pixi";
 
-    public PixiologistModule(ReactApplicationContext reactContext) {
+    public PixiModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
@@ -25,16 +25,16 @@ public class PixiologistModule extends ReactContextBaseJavaModule {
     public boolean install() {
         try {
             Log.i(NAME, "Loading C++ library...");
-            System.loadLibrary("Pixiologist");
+            System.loadLibrary("Pixi");
             long jsContext = getReactApplicationContext().getJavaScriptContextHolder().get();
             AssetManager assetManager = getReactApplicationContext().getAssets();
-            Log.i(NAME, "Installing JSI Bindings for Pixiologist C++ lib...");
+            Log.i(NAME, "Installing JSI Bindings for Pixi C++ lib...");
             boolean successful = nativeInstall(jsContext, assetManager);
             if (successful) {
                 Log.i(NAME, "Successfully installed JSI Bindings!");
                 return true;
             } else {
-                Log.e(NAME, "Failed to install JSI Bindings for Pixiologist C++ lib!");
+                Log.e(NAME, "Failed to install JSI Bindings for Pixi C++ lib!");
                 return false;
             }
         } catch (Exception exception) {

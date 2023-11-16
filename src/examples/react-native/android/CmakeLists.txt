@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.9.0)
 
 
 set (CMAKE_VERBOSE_MAKEFILE ON)
-set (PACKAGE_NAME "Pixiologist")
+set (PACKAGE_NAME "Pixi")
 set (CMAKE_CXX_STANDARD 17)
 
 

@@ -1,51 +1,48 @@
 #include <HalideBuffer.h>
 #include <HalideRuntime.h>
 #include <iostream>
-#include <opencv2/opencv.hpp>
 #include <chrono>
-#include "pixi/parsers.h"
+#include <Halide.h>
 #include "image_resizer.h"
+#include <halide_image_io.h>
 
-int main()
-{
+using namespace Halide;
+using namespace Halide::Tools;
 
-    cv::Mat input_image = cv::imread("wallpaper.png", cv::IMREAD_UNCHANGED);
-    if (input_image.empty())
-    {
+int main() {
+    // Load the input image using Halide's tools
+    Buffer<uint8_t> input_buffer = load_image("wallpaper.jpg");
+    if (!input_buffer.data()) {
         std::cerr << "Failed to load input image." << std::endl;
         return 1;
     }
 
-    Halide::Runtime::Buffer<uint8_t> halide_input_image = cvMatToHalideBuffer(input_image);
-
     int32_t output_width = 800;
     int32_t output_height = 600;
 
-    Halide::Runtime::Buffer<uint8_t> halide_output_image(output_width, output_height, input_image.channels());
+     Halide::Runtime::Buffer<uint8_t> output_buffer(output_width, output_height, input_buffer.channels());
+
+
+
+    // Convert the Halide::Runtime::Buffer to halide_buffer_t for image_resizer
+    halide_buffer_t *input_halide_buffer = input_buffer.raw_buffer();
+    halide_buffer_t *output_halide_buffer = output_buffer.raw_buffer();
 
     auto start = std::chrono::high_resolution_clock::now();
-
-    int resize_status = image_resizer(halide_input_image, output_width, output_height, halide_output_image);
-
+    int resize_status = image_resizer(input_halide_buffer, output_width, output_height, output_halide_buffer);
     auto stop = std::chrono::high_resolution_clock::now();
-
-    if (resize_status != 0)
-    {
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    if (resize_status != 0) {
         std::cerr << "Image resizing failed." << std::endl;
         return 1;
     }
 
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+
+
     std::cout << "Resizing took " << duration.count() << " microseconds." << std::endl;
 
-    cv::Mat output_image = halideBufferToCvMat(halide_output_image);
-
-    bool success = cv::imwrite("resized_output.png", output_image);
-    if (!success)
-    {
-        std::cerr << "Failed to save output image." << std::endl;
-        return 1;
-    }
+    // Save the output image using Halide's tools
+    save_image(output_buffer, "resized_output.png");
 
     return 0;
 }

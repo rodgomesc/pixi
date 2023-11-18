@@ -52,14 +52,11 @@ public:
         Func interpolated = bilinearInterpolate(coordinates);
 
         output(x, y, c) = cast<uint8_t>(clamp(interpolated(x, y, c), 0.0f, 255.0f));
-
-        // Aggressive scheduling
         Var xi("xi"), yi("yi"), xo("xo"), yo("yo");
 
-        // Apply tiling for parallel execution and better cache locality
-        output.tile(x, y, xo, yo, xi, yi, 128, 64)
-        .vectorize(xi, 32) // Vectorization for performance
-        .parallel(yo); // Parallelize on the tile level
+        output.tile(x, y, xo, yo, xi, yi, 128, 32)
+        .vectorize(xi, 32)
+        .parallel(yo);
 
     }
 };

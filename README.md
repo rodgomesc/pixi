@@ -4,6 +4,7 @@
 
 `./generators -g image_resizer -o imgResizer target=arm-64-android`
 `./generators -g yuv_420_888 -o yuvToRgba target=arm-64-android`
+`./generators -g image_resizer -o imgResizer target=host-metal-no_runtime`
 
 [Read the Docs](#)
 

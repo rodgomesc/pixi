@@ -1,7 +1,9 @@
 import React from 'react';
-import {NativeModules, Pressable} from 'react-native';
+import {NativeModules} from 'react-native';
+import CameraPage from './src/CameraPage';
 
-import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const {Pixi} = NativeModules;
 
@@ -10,24 +12,32 @@ if (!Pixi) {
 }
 
 function App(): JSX.Element {
-  const handleImageResize = () => {
-    console.log('resizing...');
-    Pixi.install();
-  };
   return (
-    <SafeAreaView style={styles.container}>
-      <Pressable onPress={handleImageResize}>
-        <Text>Resize</Text>
-      </Pressable>
-    </SafeAreaView>
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaView style={styles.root}>
+        <CameraPage />
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  buttonWrapper: {
+    marginTop: 'auto',
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 10,
+  },
+  button: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'blue',
   },
 });
 

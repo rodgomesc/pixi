@@ -1,47 +1,65 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {
   Camera,
   useCameraDevice,
   CameraPermissionStatus,
+  useCameraFormat,
+  useFrameProcessor,
 } from 'react-native-vision-camera';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
+// import pixiFrameProcessor from './frame-processors/pixiFrameProcessor';
+
+import pixi from './frame-processors/pixiProcessorNative';
 import {StyleSheet} from 'react-native';
 
-export function App(): React.ReactElement | null {
+const CameraPage = (): React.ReactElement | null => {
   const [cameraPermission, setCameraPermission] =
     useState<CameraPermissionStatus>();
+
   const camera = useRef<Camera>(null);
-  const [isCameraInitialized, setIsCameraInitialized] = useState(false);
-  const [hasMicrophonePermission, setHasMicrophonePermission] = useState(false);
-  const [cameraPosition, setCameraPosition] = useState<'front' | 'back'>(
-    'back',
-  );
-  let device = useCameraDevice(cameraPosition);
-  const [targetFps, setTargetFps] = useState(60);
 
-  const screenAspectRatio = SCREEN_HEIGHT / SCREEN_WIDTH;
-
-  const fps = Math.min(format?.maxFps ?? 1, targetFps);
+  const device = useCameraDevice('front');
+  const targetFps = 30;
 
   const format = useCameraFormat(device, [
     {fps: targetFps},
-    {videoAspectRatio: screenAspectRatio},
     {videoResolution: 'max'},
-    {photoAspectRatio: screenAspectRatio},
-    {photoResolution: 'max'},
   ]);
 
   useEffect(() => {
-    Camera.getCameraPermissionStatus().then(setCameraPermission);
+    (async () => {
+      const status = await Camera.requestCameraPermission();
+      setCameraPermission(status);
+    })();
   }, []);
 
-  const showPermissionsPage = cameraPermission !== 'granted';
-  return <GestureHandlerRootView style={styles.root} />;
-}
+  const frameProcessor = useFrameProcessor(frame => {
+    'worklet';
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-});
+    const result = pixi.convert(frame, {
+      output_height: 100,
+      output_width: 100,
+      output_format: 'rgba-8888',
+    });
+    console.log(result);
+  }, []);
+
+  if (!cameraPermission || !device) {
+    return null;
+  }
+
+  return (
+    <Camera
+      ref={camera}
+      style={StyleSheet.absoluteFill}
+      isActive={true}
+      format={format}
+      pixelFormat="yuv"
+      frameProcessor={frameProcessor}
+      device={device}
+    />
+  );
+};
+
+export default CameraPage;

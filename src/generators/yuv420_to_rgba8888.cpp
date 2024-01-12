@@ -44,8 +44,3 @@ namespace {
 }  // namespace
 
 HALIDE_REGISTER_GENERATOR(YuvToRgba888, yuv_to_rgba888)
-
-////// The main function for the generator
-//int main(int argc, char **argv) {
-//    return Halide::Internal::generate_filter_main(argc, argv);
-//}

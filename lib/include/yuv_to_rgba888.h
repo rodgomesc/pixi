@@ -1,5 +1,5 @@
-#ifndef HALIDE__yuv_generator___yuv_to_rgba888_h
-#define HALIDE__yuv_generator___yuv_to_rgba888_h
+#ifndef HALIDE__yuvToRgba___yuv_to_rgba888_h
+#define HALIDE__yuvToRgba___yuv_to_rgba888_h
 #include <stdint.h>
 
 // Forward declarations of the types used in the interface

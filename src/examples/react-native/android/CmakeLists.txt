@@ -19,6 +19,7 @@ add_library(
         SHARED
         ../../../../src/parsers.cpp
         cpp/JniOnLoad.cpp
+        cpp/JSITypedArray.cpp
         cpp/PixiHostObject.cpp
         cpp/PixiInstaller.cpp
         cpp/PixiProxy.cpp

@@ -1,11 +1,13 @@
 package com.example.pixi
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.annotation.Keep
 import com.facebook.jni.HybridData
 import com.facebook.proguard.annotations.DoNotStrip
 import com.facebook.react.bridge.ReactApplicationContext
 import java.lang.ref.WeakReference
+import java.nio.ByteBuffer
 
 @Suppress("KotlinJniMissingFunction")
 class PixiProxy(context: ReactApplicationContext) {
@@ -25,7 +27,18 @@ class PixiProxy(context: ReactApplicationContext) {
     @DoNotStrip
     @Keep
     fun sayHello(num: Int) {
-        Log.d("TEST", "Hello from PixiProxy! $num")
+        Log.d(TAG, "Hello from PixiProxy! $num")
+    }
+
+    @DoNotStrip
+    @Keep
+    fun receiveBuffer(buffer: ByteBuffer, width: Int, height: Int) {
+        buffer.rewind()
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        bitmap.copyPixelsFromBuffer(buffer)
+
+        Log.d(TAG, "Received buffer with width: $width and height: $height")
     }
 
 

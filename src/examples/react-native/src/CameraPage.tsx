@@ -19,12 +19,14 @@ const CameraPage = (): React.ReactElement | null => {
 
   const camera = useRef<Camera>(null);
 
-  const device = useCameraDevice('front');
+  const device = useCameraDevice('back');
+
   const targetFps = 30;
 
   const format = useCameraFormat(device, [
     {fps: targetFps},
     {videoResolution: 'max'},
+    {photoResolution: 'max'},
   ]);
 
   useEffect(() => {
@@ -32,10 +34,6 @@ const CameraPage = (): React.ReactElement | null => {
       const status = await Camera.requestCameraPermission();
       setCameraPermission(status);
     })();
-  }, []);
-
-  useEffect(() => {
-    pixi.sayHello(777);
   }, []);
 
   const frameProcessor = useFrameProcessor(frame => {
@@ -46,7 +44,7 @@ const CameraPage = (): React.ReactElement | null => {
       output_width: 100,
       output_format: 'rgba-8888',
     });
-    console.log(result);
+    // console.log('-->', result[0]);
   }, []);
 
   if (!cameraPermission || !device) {

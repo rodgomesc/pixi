@@ -3,34 +3,41 @@
 #include <ReactCommon/CallInvokerHolder.h>
 #include <fbjni/fbjni.h>
 #include <jsi/jsi.h>
-
+#include <fbjni/ByteBuffer.h>
 #include <memory>
 #include <string>
 
 
-namespace Pixi
-{
+namespace Pixi {
+    using namespace facebook;
+    using namespace facebook::jni;
 
-  using namespace facebook;
+    class PixiProxy : public HybridClass<PixiProxy> {
+    public:
+        ~PixiProxy();
 
-  class PixiProxy : public jni::HybridClass<PixiProxy>
-  {
-  public:
-    ~PixiProxy();
-    static void registerNatives();
-    jsi::Runtime *getJSRuntime();
-    void sayHello(int number);
+        static void registerNatives();
 
-  private:
-    friend HybridBase;
-    jni::global_ref<PixiProxy::javaobject> _javaPart;
-    jsi::Runtime *_runtime;
+        jsi::Runtime *getJSRuntime();
 
-    static auto constexpr TAG = "PixiProxy";
-    static auto constexpr kJavaDescriptor = "Lcom/example/pixi/PixiProxy;";
+        void sayHello(int number);
 
-    explicit PixiProxy(const jni::alias_ref<PixiProxy::jhybridobject> &javaThis, jsi::Runtime *jsRuntime);
-    static jni::local_ref<jhybriddata> initHybrid(jni::alias_ref<jhybridobject> javaThis, jlong jsRuntimePointer);
-  };
+        void receiveBuffer(alias_ref<JByteBuffer> buffer, int width, int height);
+
+
+    private:
+        friend HybridBase;
+        jni::global_ref<PixiProxy::javaobject> _javaPart;
+        jsi::Runtime *_runtime;
+
+        static auto constexpr TAG = "PixiProxy";
+        static auto constexpr kJavaDescriptor = "Lcom/example/pixi/PixiProxy;";
+
+        explicit PixiProxy(const jni::alias_ref<PixiProxy::jhybridobject> &javaThis,
+                           jsi::Runtime *jsRuntime);
+
+        static jni::local_ref<jhybriddata>
+        initHybrid(jni::alias_ref<jhybridobject> javaThis, jlong jsRuntimePointer);
+    };
 
 }

@@ -1,9 +1,8 @@
 #include "PixiProxy.h"
-
+#include <fbjni/ByteBuffer.h>
 #include <memory>
 #include <string>
 #include <utility>
-
 #include <jsi/jsi.h>
 
 namespace Pixi {
@@ -24,6 +23,12 @@ namespace Pixi {
     void PixiProxy::sayHello(int number) {
         auto sayHelloMethod = javaClassLocal()->getMethod<void(int)>("sayHello");
         sayHelloMethod(_javaPart, number);
+    }
+
+    void PixiProxy::receiveBuffer(alias_ref<JByteBuffer> buffer, int width, int height) {
+        auto receiveBufferMethod = javaClassLocal()->getMethod<void(alias_ref<JByteBuffer>, int,
+                                                                    int)>("receiveBuffer");
+        receiveBufferMethod(_javaPart, buffer, width, height);
     }
 
 

@@ -34,6 +34,10 @@ const CameraPage = (): React.ReactElement | null => {
     })();
   }, []);
 
+  useEffect(() => {
+    pixi.sayHello(777);
+  }, []);
+
   const frameProcessor = useFrameProcessor(frame => {
     'worklet';
 

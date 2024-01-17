@@ -2,11 +2,11 @@ project(example)
 cmake_minimum_required(VERSION 3.9.0)
 
 
-set (CMAKE_VERBOSE_MAKEFILE ON)
-set (PACKAGE_NAME "Pixi")
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(PACKAGE_NAME "Pixi")
+set(CMAKE_CXX_STANDARD 17)
 
-set(OpenCV_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/cpp-modules/opencv/sdk/native/jni/)
+set(OpenCV_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cpp-modules/opencv/sdk/native/jni/)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
@@ -20,6 +20,7 @@ add_library(
         ../../../../src/parsers.cpp
         cpp/JniOnLoad.cpp
         cpp/PixiHostObject.cpp
+        cpp/PixiInstaller.cpp
         cpp/PixiProxy.cpp
 )
 
@@ -66,6 +67,4 @@ target_link_libraries(
         ${OpenCV_LIBS}
         image_resizer
         yuv_to_rgba888
-        react-native-vision-camera::VisionCamera
-
-)
+        react-native-vision-camera::VisionCamera)

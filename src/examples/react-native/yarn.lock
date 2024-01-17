@@ -5500,10 +5500,10 @@ react-native-static-safe-area-insets@^2.2.0:
   resolved "https://registry.yarnpkg.com/react-native-static-safe-area-insets/-/react-native-static-safe-area-insets-2.2.0.tgz#dd86b6a38f43964fac8df8c0e6bc8e062527786c"
   integrity sha512-TLTW2e2kRK3COSK8gMZzwp4wHguFCtcO18itDLn5av/xQblXt9ylu84o+qD9aKJCBfvtNzGOvqqTKqC5GJRZ/g==
 
-react-native-vision-camera@3.7.1:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-3.7.1.tgz#e8bdf5e6a61533fbf34be393acd9d8f5d24168a8"
-  integrity sha512-jhcLiDCOFaYEeu2UhZjK1Yft+eOC0uzrHkShWF0XOH3BioBYAxs1bec0RUItCGAvzbPePIC07KwB74PaJu0Zxw==
+react-native-vision-camera@3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-3.8.0.tgz#b248613fca16d835db6e204ca4e68ad39e792ed4"
+  integrity sha512-Ym3tIwPm8K3Wcm5OF70HlsilC9Ty6ZiT/7vij4nc6IsLWm5xRZVlJBLaquPLP0p7oQCR7t1sY7/QyRQGxZac4w==
 
 react-native-worklets-core@^0.2.4:
   version "0.2.4"

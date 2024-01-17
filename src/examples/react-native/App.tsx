@@ -1,15 +1,9 @@
 import React from 'react';
-import {NativeModules} from 'react-native';
+
 import CameraPage from './src/CameraPage';
 
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-
-const {Pixi} = NativeModules;
-
-if (!Pixi) {
-  throw new Error('Pixi native module is not available.');
-}
 
 function App(): JSX.Element {
   return (

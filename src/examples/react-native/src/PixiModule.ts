@@ -10,8 +10,8 @@ const LINKING_ERROR =
 
 
 
-const PixiProxyModule = NativeModules.Pixi
-  ? NativeModules.Pixi
+const PixiModule = NativeModules.PixiModule
+  ? NativeModules.PixiModule
   : new Proxy(
     {},
     {
@@ -23,4 +23,4 @@ const PixiProxyModule = NativeModules.Pixi
 
 
 
-export default PixiProxyModule;
+export default PixiModule;

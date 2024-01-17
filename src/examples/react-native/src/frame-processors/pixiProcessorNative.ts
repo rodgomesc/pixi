@@ -1,7 +1,7 @@
 import { Frame } from 'react-native-vision-camera';
-import PixiProxyModule from '../PixiProxyModule';
+import PixiModule from '../PixiModule';
 
-const result = PixiProxyModule.install() as boolean;
+const result = PixiModule.install() as boolean;
 if (result !== true) {
   console.error('Failed to install pixi bindings!');
 }
@@ -12,14 +12,15 @@ interface convertOptions {
   output_format: 'rgba-8888';
 }
 
-export interface PixiProxyFunctions {
+export interface PixiHostFunctions {
   convert(frame: Frame, options: convertOptions): Record<string, unknown>;
+  sayHello(n: number): void;
 }
 
 declare global {
-  var __PixiProxy: () => PixiProxyFunctions;
+  var __PixiHostFn: PixiHostFunctions;
 }
 
-const pixi = global.__PixiProxy();
+const pixi = global.__PixiHostFn;
 
 export default pixi;

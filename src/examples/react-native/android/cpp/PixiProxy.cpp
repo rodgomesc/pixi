@@ -1,35 +1,43 @@
 #include "PixiProxy.h"
-#include "PixiHostObject.h"
 
-namespace Pixi
-{
+#include <memory>
+#include <string>
+#include <utility>
 
-  using namespace facebook::jni;
+#include <jsi/jsi.h>
 
-  jboolean PixiProxy::installJsiRuntime(jni::alias_ref<jni::JClass>, jlong runtimePtr)
-  {
-    auto runtime = reinterpret_cast<jsi::Runtime *>(runtimePtr);
-    if (runtime == nullptr)
-    {
-      return false;
+namespace Pixi {
+    using namespace facebook::jni;
+
+    using TSelf = local_ref<HybridClass<PixiProxy>::jhybriddata>;
+
+    PixiProxy::PixiProxy(const jni::alias_ref<PixiProxy::jhybridobject> &javaThis,
+                         jsi::Runtime *runtime) {
+        _javaPart = make_global(javaThis);
+        _runtime = runtime;
     }
 
-    auto PixiProxyInstaller = jsi::Function::createFromHostFunction(*runtime,
-                                                                    jsi::PropNameID::forAscii(*runtime, "PixiProxy"),
-                                                                    1,
-                                                                    [](jsi::Runtime &runtime,
-                                                                       const jsi::Value &thisValue,
-                                                                       const jsi::Value *arguments, size_t count) -> jsi::Value
-                                                                    {
-            auto pixiHostObj = std::make_shared<PixiHostObject>(runtime);
-            return jsi::Object::createFromHostObject(runtime, pixiHostObj); });
+    PixiProxy::~PixiProxy() {
+    }
 
-    runtime->global().setProperty(*runtime, "__PixiProxy", PixiProxyInstaller);
-    return true;
-  }
 
-  void PixiProxy::registerNatives()
-  {
-    javaClassStatic()->registerNatives({makeNativeMethod("installJsiRuntime", PixiProxy::installJsiRuntime)});
-  }
+    void PixiProxy::sayHello(int number) {
+        auto sayHelloMethod = javaClassLocal()->getMethod<void(int)>("sayHello");
+        sayHelloMethod(_javaPart, number);
+    }
+
+
+    void PixiProxy::registerNatives() {
+        registerHybrid({makeNativeMethod("initHybrid", PixiProxy::initHybrid)});
+    }
+
+    jsi::Runtime *PixiProxy::getJSRuntime() {
+        return _runtime;
+    }
+
+    TSelf PixiProxy::initHybrid(alias_ref<jhybridobject> jThis, jlong jsRuntimePointer) {
+        auto jsRuntime = reinterpret_cast<jsi::Runtime *>(jsRuntimePointer);
+        return makeCxxInstance(jThis, jsRuntime);
+    }
+
 }
